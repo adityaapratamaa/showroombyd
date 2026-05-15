@@ -97,12 +97,59 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
   position:relative;
   overflow:hidden;
 }
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(0,102,204,.18) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 85% 65%,rgba(0,212,255,.07) 0%,transparent 50%),var(--black);z-index:0}
-.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(0,212,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);animation:gridShift 20s linear infinite}
+
+/* ─────────────────────────────────────────────────────
+   HERO BACKGROUND — IMAGE atau VIDEO
+   ─────────────────────────────────────────────────────
+   Untuk menggunakan GAMBAR sebagai background hero:
+   → Ganti nilai background-image pada .hero-media-img
+   → Ukuran gambar yang ideal: 1920 × 1080 px (landscape, rasio 16:9)
+   → Format rekomendasi: .jpg (dioptimalkan, maks 500 KB) atau .webp
+   → Contoh: background-image: url('images/byd-hero.jpg');
+
+   Untuk menggunakan VIDEO sebagai background hero:
+   → Ubah display .hero-media-img menjadi display:none
+   → Ubah display .hero-media-video menjadi display:block
+   → Ganti src pada elemen <source> di HTML dengan path video Anda
+   → Ukuran video yang ideal: 1920 × 1080 px, format .mp4 (H.264)
+   → Resolusi maks rekomendasi: 1080p, 30fps, bitrate ~2-5 Mbps
+   ───────────────────────────────────────────────────── */
+
+/* Layer 1: gambar atau video background */
+.hero-media-img{
+  position:absolute;inset:0;z-index:0;
+  /* ↓ EDIT: Ganti URL gambar hero di sini ↓ */
+  background-image: url('images/byd-hero.jpg'); /* Ukuran ideal: 1920×1080 px, format .jpg/.webp */
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+}
+.hero-media-video{
+  position:absolute;inset:0;z-index:0;
+  display:none; /* Ubah ke 'block' jika menggunakan video */
+  overflow:hidden;
+}
+.hero-media-video video{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+}
+
+/* Layer 2: overlay gelap agar teks tetap terbaca */
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(180deg, rgba(6,6,16,.65) 0%, rgba(6,6,16,.45) 40%, rgba(6,6,16,.7) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,102,204,.25) 0%, transparent 60%);
+}
+
+/* Layer 3: grid dekoratif tipis (opsional, bisa dihapus) */
+.hero-grid{position:absolute;inset:0;z-index:2;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);animation:gridShift 20s linear infinite}
 @keyframes gridShift{0%{background-position:0 0}100%{background-position:60px 60px}}
-.hero-scan{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,transparent 0%,rgba(0,212,255,.025) 50%,transparent 100%);animation:scanAnim 5s ease-in-out infinite;pointer-events:none}
+
+/* Layer 4: scan line animasi */
+.hero-scan{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 0%,rgba(0,212,255,.02) 50%,transparent 100%);animation:scanAnim 6s ease-in-out infinite;pointer-events:none}
 @keyframes scanAnim{0%,100%{transform:translateY(-100%)}50%{transform:translateY(100%)}}
-.hero-content{position:relative;z-index:1;text-align:center;width:100%;max-width:860px}
+
+.hero-content{position:relative;z-index:3;text-align:center;width:100%;max-width:860px}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);border-radius:100px;padding:6px 18px;font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan);margin-bottom:28px;animation:fadeUp .8s .3s both}
 .hero-badge-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:blink 1.2s ease-in-out infinite;flex-shrink:0}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
@@ -116,10 +163,7 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 .hero-stat:last-child{border-right:none}
 .stat-num{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,3.5vw,2rem);font-weight:700;color:var(--cyan);display:block;line-height:1}
 .stat-lbl{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,214,229,.4);display:block;margin-top:5px}
-.hero-scroll-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;z-index:1;animation:fadeUp 1s 1.4s both}
-.hero-scroll-hint span{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(200,214,229,.3)}
-.scroll-line{width:1px;height:36px;background:linear-gradient(180deg,var(--cyan),transparent);animation:scrollPulse 1.6s ease-in-out infinite}
-@keyframes scrollPulse{0%,100%{opacity:.25}50%{opacity:1}}
+/* Scroll hint removed */
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 
 /* BUTTONS */
@@ -246,21 +290,86 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 .modal-wa:hover{box-shadow:0 8px 32px rgba(37,211,102,.4);transform:translateY(-2px)}
 
 /* ═══════════════════════════════════════════
-   FEATURES
+   FEATURES — INNOVATION GRID
 ═══════════════════════════════════════════ */
 #features{background:linear-gradient(180deg,var(--dark),var(--black))}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(0,212,255,.1);margin-top:56px}
-.feat-item{padding:36px 28px;border-right:1px solid rgba(0,212,255,.08);border-bottom:1px solid rgba(0,212,255,.08);position:relative;overflow:hidden;transition:background .4s}
+
+/* ─────────────────────────────────────────────────────
+   FEAT-ITEM BACKGROUND IMAGE
+   ─────────────────────────────────────────────────────
+   Setiap kotak inovasi mendukung background gambar.
+   Ukuran gambar ideal: 600 × 420 px (rasio 3:2, landscape)
+   Format rekomendasi: .jpg (dioptimalkan, maks 80 KB) atau .webp
+   Gambar akan tertutup overlay gelap agar teks tetap terbaca.
+
+   Untuk mengganti gambar tiap kotak:
+   → .feat-item:nth-child(1) { background-image: url('images/feat-blade-battery.jpg'); }
+   → .feat-item:nth-child(2) { background-image: url('images/feat-dilink.jpg'); }
+   → dst.
+
+   Edit bagian CSS di bawah ini (satu per kotak):
+   ───────────────────────────────────────────────────── */
+.feat-item{
+  padding:36px 28px;
+  border-right:1px solid rgba(0,212,255,.08);
+  border-bottom:1px solid rgba(0,212,255,.08);
+  position:relative;overflow:hidden;
+  transition:all .4s;
+  background-color: var(--dark);
+  /* Background image dengan overlay: */
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+/* Overlay gelap di atas background image tiap card */
+.feat-item::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(160deg, rgba(6,6,16,.82) 0%, rgba(6,6,16,.72) 60%, rgba(0,20,50,.78) 100%);
+  z-index:0;
+  transition:background .4s;
+}
+.feat-item:hover::after{
+  background:linear-gradient(160deg, rgba(6,6,16,.65) 0%, rgba(6,6,16,.5) 60%, rgba(0,30,70,.65) 100%);
+}
+
+/* ↓ EDIT: Ganti URL gambar untuk setiap kotak inovasi di bawah ini ↓ */
+/* Ukuran ideal: 600×420 px, format .jpg/.webp */
+
+/* Kotak 1 — Blade Battery™ */
+.feat-item:nth-child(1){background-image:url('images/feat-blade-battery.jpg');}
+
+/* Kotak 2 — DiLink OS */
+.feat-item:nth-child(2){background-image:url('images/feat-dilink-os.jpg');}
+
+/* Kotak 3 — e-Platform 3.0 */
+.feat-item:nth-child(3){background-image:url('images/feat-eplatform.jpg');}
+
+/* Kotak 4 — DiSus-C Adaptive */
+.feat-item:nth-child(4){background-image:url('images/feat-disusc.jpg');}
+
+/* Kotak 5 — Advanced Safety Suite */
+.feat-item:nth-child(5){background-image:url('images/feat-safety.jpg');}
+
+/* Kotak 6 — Green Journey */
+.feat-item:nth-child(6){background-image:url('images/feat-green-journey.jpg');}
+
 .feat-item:nth-child(3n){border-right:none}
 .feat-item:nth-child(n+4){border-bottom:none}
-.feat-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);transform:scaleX(0);transition:transform .4s}
+
+/* Garis aksen atas saat hover */
+.feat-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);transform:scaleX(0);transition:transform .4s;z-index:2}
 .feat-item:hover::before{transform:scaleX(1)}
-.feat-item:hover{background:rgba(0,212,255,.03)}
-.feat-num{font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(0,212,255,.3);letter-spacing:.2em;margin-bottom:20px}
-.feat-icon{width:48px;height:48px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:18px;transition:all .3s}
-.feat-item:hover .feat-icon{background:rgba(0,212,255,.15);border-color:var(--cyan);box-shadow:0 0 18px rgba(0,212,255,.2)}
-.feat-title{font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;letter-spacing:.04em;margin-bottom:8px}
-.feat-desc{font-size:.78rem;color:rgba(200,214,229,.45);line-height:1.7}
+
+/* Semua konten dalam .feat-item harus di atas overlay (z-index > 0) */
+.feat-num,.feat-icon,.feat-title,.feat-desc{position:relative;z-index:1}
+.feat-num{font-family:'Orbitron',monospace;font-size:.58rem;color:rgba(0,212,255,.45);letter-spacing:.2em;margin-bottom:20px}
+.feat-icon{width:48px;height:48px;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:18px;transition:all .3s}
+.feat-item:hover .feat-icon{background:rgba(0,212,255,.2);border-color:var(--cyan);box-shadow:0 0 20px rgba(0,212,255,.3)}
+.feat-title{font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;letter-spacing:.04em;margin-bottom:8px;color:var(--white)}
+.feat-desc{font-size:.78rem;color:rgba(200,214,229,.6);line-height:1.7}
 
 /* ═══════════════════════════════════════════
    EV SAVINGS CALCULATOR (NEW)
@@ -295,7 +404,7 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 .calc-field{margin-bottom:22px}
 .calc-field label{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,214,229,.5);margin-bottom:8px}
 .calc-field select,.calc-field input[type=range]{width:100%}
-.calc-select{width:100%;background:rgba(0,8,20,.9);border:1px solid rgba(0,212,255,.2);color:var(--white);padding:11px 14px;border-radius:3px;font-family:'Exo 2',sans-serif;font-size:.85rem;outline:none;transition:border-color .3s;-webkit-appearance:none}
+.calc-select{width:100%;background:rgba(0,8,20,.9);border:1px solid rgba(0,212,255,.2);color:var(--white);padding:11px 14px;border-radius:3px;font-family:'Exo 2',sans-serif;font-size:.85rem;outline:none;transition:border-color .3s;-webkit-appearance:none;appearance:none}
 .calc-select:focus{border-color:var(--cyan)}
 .calc-slider-wrap{position:relative}
 .calc-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;background:rgba(0,212,255,.15);outline:none;cursor:pointer}
@@ -398,7 +507,7 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .form-field{margin-bottom:16px}
 .form-field label{display:block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,214,229,.45);margin-bottom:7px}
-.form-field input,.form-field select{width:100%;background:rgba(0,8,20,.9);border:1px solid rgba(0,212,255,.18);color:var(--white);padding:11px 14px;border-radius:3px;font-family:'Exo 2',sans-serif;font-size:.85rem;outline:none;transition:border-color .3s;-webkit-appearance:none}
+.form-field input,.form-field select{width:100%;background:rgba(0,8,20,.9);border:1px solid rgba(0,212,255,.18);color:var(--white);padding:11px 14px;border-radius:3px;font-family:'Exo 2',sans-serif;font-size:.85rem;outline:none;transition:border-color .3s;-webkit-appearance:none;appearance:none}
 .form-field input::placeholder{color:rgba(200,214,229,.25)}
 .form-field input:focus,.form-field select:focus{border-color:var(--cyan)}
 .form-submit{width:100%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;padding:14px;border-radius:4px;font-family:'Exo 2',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:.1em;cursor:pointer;border:none;transition:all .3s;margin-top:6px}
@@ -414,31 +523,7 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 .td-perk-text h4{font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:600;letter-spacing:.05em;color:var(--white);margin-bottom:3px}
 .td-perk-text p{font-size:.75rem;color:rgba(200,214,229,.45);line-height:1.5}
 
-/* ═══════════════════════════════════════════
-   LOYALTY PROGRAM (NEW)
-═══════════════════════════════════════════ */
-#loyalty{background:var(--dark)}
-.loyalty-header{text-align:center;max-width:600px;margin:0 auto 56px}
-.loyalty-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.loyalty-tier{border-radius:6px;padding:32px;text-align:center;position:relative;overflow:hidden;transition:all .3s}
-.loyalty-tier.silver{background:linear-gradient(135deg,rgba(180,180,200,.06),rgba(180,180,200,.02));border:1px solid rgba(180,180,200,.2)}
-.loyalty-tier.gold{background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.03));border:1px solid rgba(255,215,0,.35)}
-.loyalty-tier.platinum{background:linear-gradient(135deg,rgba(0,212,255,.12),rgba(0,102,204,.06));border:1px solid rgba(0,212,255,.4)}
-.loyalty-tier.gold::before{content:'⭐ TERPOPULER';position:absolute;top:14px;right:-26px;background:var(--gold);color:#000;font-size:.55rem;font-weight:700;letter-spacing:.2em;padding:4px 40px;transform:rotate(45deg);text-transform:uppercase}
-.tier-icon{font-size:2.2rem;margin-bottom:14px}
-.tier-name{font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;letter-spacing:.15em;margin-bottom:6px}
-.tier-name.silver{color:#b4b4c8}
-.tier-name.gold{color:var(--gold)}
-.tier-name.platinum{color:var(--cyan)}
-.tier-sub{font-size:.72rem;color:rgba(200,214,229,.4);margin-bottom:24px}
-.tier-benefits{display:flex;flex-direction:column;gap:9px;text-align:left;margin-bottom:28px}
-.tier-benefit{display:flex;align-items:center;gap:9px;font-size:.78rem;color:rgba(200,214,229,.7)}
-.tier-benefit::before{content:'✓';color:var(--cyan);font-weight:700;flex-shrink:0}
-.tier-cta{display:block;padding:10px;border-radius:3px;font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-align:center;transition:all .3s}
-.tier-cta.silver{background:rgba(180,180,200,.1);border:1px solid rgba(180,180,200,.3);color:#b4b4c8}
-.tier-cta.gold{background:linear-gradient(135deg,rgba(255,215,0,.25),rgba(255,165,0,.15));border:1px solid var(--gold);color:var(--gold)}
-.tier-cta.platinum{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border:none}
-.tier-cta:hover{transform:translateY(-2px);filter:brightness(1.15)}
+/* BYD Privilege Club section removed */
 
 /* ═══════════════════════════════════════════
    FAQ
@@ -486,7 +571,7 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
 /* ═══════════════════════════════════════════
    FLOATING WA
 ═══════════════════════════════════════════ */
-.wa-float{position:fixed;bottom:28px;right:24px;z-index:5000;display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:13px 20px 13px 16px;border-radius:50px;font-family:'Exo 2',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.04em;box-shadow:0 8px 28px rgba(37,211,102,.4);transition:all .3s;animation:waFadeIn .6s 1.6s both}
+.wa-float{position:fixed;bottom:90px;right:24px;z-index:5000;display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:13px 20px 13px 16px;border-radius:50px;font-family:'Exo 2',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.04em;box-shadow:0 8px 28px rgba(37,211,102,.4);transition:all .3s;animation:waFadeIn .6s 1.6s both}
 .wa-float:hover{box-shadow:0 14px 44px rgba(37,211,102,.6);transform:translateY(-3px)}
 .wa-float-icon{font-size:1.15rem;line-height:1;flex-shrink:0}
 .wa-float-txt{white-space:nowrap}
@@ -494,38 +579,12 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
 @keyframes waPulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.07);opacity:0}}
 @keyframes waFadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-/* ═══════════════════════════════════════════
-   STICKY CTA BAR (NEW) — bottom strip on scroll
-═══════════════════════════════════════════ */
-#sticky-bar{
-  position:fixed;
-  bottom:0;left:0;right:0;
-  z-index:4990;
-  background:rgba(6,6,16,.96);
-  border-top:1px solid rgba(0,212,255,.2);
-  backdrop-filter:blur(16px);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 5%;
-  gap:16px;
-  transform:translateY(100%);
-  transition:transform .4s var(--ease);
-}
-#sticky-bar.visible{transform:translateY(0)}
-.sticky-bar-text{font-size:.8rem;color:rgba(200,214,229,.7);letter-spacing:.05em}
-.sticky-bar-text strong{color:var(--cyan);font-family:'Orbitron',monospace;font-size:.9rem}
-.sticky-bar-btns{display:flex;gap:10px;flex-shrink:0}
-.sticky-btn{padding:9px 18px;border-radius:3px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .3s;white-space:nowrap}
-.sticky-btn-wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
-.sticky-btn-wa:hover{box-shadow:0 0 20px rgba(37,211,102,.4)}
-.sticky-btn-td{background:transparent;border:1px solid rgba(0,212,255,.4);color:var(--cyan)}
-.sticky-btn-td:hover{background:rgba(0,212,255,.12)}
+/* Sticky CTA bar dihapus — navigasi WA tetap via tombol floating kanan bawah */
 
 /* ═══════════════════════════════════════════
    LIVE CHAT WIDGET (NEW)
 ═══════════════════════════════════════════ */
-#chat-widget{position:fixed;bottom:92px;right:24px;z-index:4900;width:340px;max-width:calc(100vw - 32px)}
+#chat-widget{position:fixed;bottom:24px;right:24px;z-index:4900;width:340px;max-width:calc(100vw - 32px)}
 .chat-bubble{background:linear-gradient(135deg,rgba(0,10,30,.98),rgba(0,20,50,.98));border:1px solid rgba(0,212,255,.25);border-radius:12px;overflow:hidden;display:none;flex-direction:column;max-height:440px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
 .chat-bubble.open{display:flex}
 .chat-header{background:linear-gradient(135deg,var(--blue),var(--cyan));padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
@@ -562,7 +621,6 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
   .td-grid{grid-template-columns:1fr}
   .td-info{padding-left:0;order:-1}
   .dealer-grid{grid-template-columns:repeat(2,1fr)}
-  .loyalty-tiers{grid-template-columns:1fr}
   .compare-selectors{flex-direction:column}
 }
 @media(max-width:768px){
@@ -598,14 +656,11 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
   .foot-grid{grid-template-columns:1fr;gap:28px}
   .foot-bottom{flex-direction:column;text-align:center}
   .form-row{grid-template-columns:1fr}
-  .wa-float{bottom:20px;right:18px;width:52px;height:52px;padding:0;border-radius:50%;justify-content:center}
+  .wa-float{bottom:82px;right:18px;width:52px;height:52px;padding:0;border-radius:50%;justify-content:center}
   .wa-float-txt{display:none}
   .wa-float-icon{font-size:1.3rem}
   .wa-pulse{border-radius:50%}
   .dealer-grid{grid-template-columns:1fr}
-  .loyalty-tiers{gap:16px}
-  #sticky-bar{padding:10px 4%}
-  .sticky-bar-text{display:none}
   #chat-widget{right:16px;width:300px}
 }
 @media(max-width:480px){
@@ -621,8 +676,6 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
   .spec-grid{grid-template-columns:1fr}
   .cmp-table{font-size:.75rem}
   .cmp-table th,.cmp-table td{padding:10px 10px}
-  #sticky-bar .sticky-bar-btns{gap:7px}
-  .sticky-btn{padding:8px 13px;font-size:.66rem}
 }
 </style>
 </head>
@@ -655,9 +708,41 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
 
 <!-- ═══════ HERO ═══════ -->
 <section id="hero">
-  <div class="hero-bg"></div>
+
+  <!-- ─────────────────────────────────────────────────────
+       HERO BACKGROUND MEDIA
+       ─────────────────────────────────────────────────────
+       OPSI A — GAMBAR (aktif secara default):
+       → Ganti 'images/byd-hero.jpg' dengan path gambar Anda
+       → Ukuran ideal: 1920 × 1080 px (landscape 16:9)
+       → Format: .jpg (maks 500 KB) atau .webp
+
+       OPSI B — VIDEO (matikan A, aktifkan B):
+       → Ubah style .hero-media-img menjadi display:none (di CSS)
+       → Ubah style .hero-media-video menjadi display:block (di CSS)
+       → Ganti src video di bawah dengan path video Anda
+       → Ukuran ideal: 1920 × 1080 px, .mp4 H.264, 30fps, ~2-5 Mbps
+       ───────────────────────────────────────────────────── -->
+
+  <!-- OPSI A: Gambar background -->
+  <div class="hero-media-img"></div>
+
+  <!-- OPSI B: Video background (hapus komentar jika ingin pakai video) -->
+  <!--
+  <div class="hero-media-video">
+    <video autoplay muted loop playsinline>
+      <source src="videos/byd-hero.mp4" type="video/mp4">
+      <!-- Fallback format tambahan (opsional): -->
+      <!-- <source src="videos/byd-hero.webm" type="video/webm"> -->
+    </video>
+  </div>
+  -->
+
+  <!-- Overlay gelap + dekorasi -->
+  <div class="hero-overlay"></div>
   <div class="hero-grid"></div>
   <div class="hero-scan"></div>
+
   <div class="hero-content">
     <div class="hero-badge"><span class="hero-badge-dot"></span>Official BYD Indonesia — Authorized Dealer</div>
     <h1 class="hero-h1">
@@ -688,7 +773,6 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
       </div>
     </div>
   </div>
-  <div class="hero-scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
 
 <!-- ═══════ AWARDS STRIP ═══════ -->
@@ -1064,61 +1148,6 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
   </div>
 </section>
 
-<!-- ═══════ LOYALTY PROGRAM (NEW) ═══════ -->
-<section id="loyalty" class="section">
-  <div class="max-wrap">
-    <div class="loyalty-header rv">
-      <span class="s-label">Program Loyalitas</span>
-      <h2 class="s-title">BYD <span style="color:var(--cyan)">Privilege Club</span></h2>
-      <p class="s-sub" style="margin:0 auto">Bergabunglah dengan komunitas pemilik BYD dan nikmati keuntungan eksklusif setiap hari.</p>
-    </div>
-    <div class="loyalty-tiers">
-      <div class="loyalty-tier silver rv d1">
-        <div class="tier-icon">🥈</div>
-        <div class="tier-name silver">SILVER</div>
-        <div class="tier-sub">Untuk setiap pemilik BYD baru</div>
-        <div class="tier-benefits">
-          <div class="tier-benefit">Servis gratis 3 tahun pertama</div>
-          <div class="tier-benefit">Garansi baterai 8 tahun</div>
-          <div class="tier-benefit">Akses BYD Care 24/7</div>
-          <div class="tier-benefit">Diskon aksesoris resmi 10%</div>
-          <div class="tier-benefit">Newsletter eksklusif & update model</div>
-        </div>
-        <a href="https://wa.me/6289502384651?text=Saya%20ingin%20info%20BYD%20Silver%20Privilege" target="_blank" class="tier-cta silver">Info Lebih Lanjut</a>
-      </div>
-      <div class="loyalty-tier gold rv d2">
-        <div class="tier-icon">🥇</div>
-        <div class="tier-name gold">GOLD</div>
-        <div class="tier-sub">Referral 2 unit atau pembelian ke-2</div>
-        <div class="tier-benefits">
-          <div class="tier-benefit">Semua keuntungan Silver</div>
-          <div class="tier-benefit">Priority booking test drive terbaru</div>
-          <div class="tier-benefit">Diskon aksesoris & servis 20%</div>
-          <div class="tier-benefit">Bonus referral Rp 1 juta per unit</div>
-          <div class="tier-benefit">Undangan event eksklusif BYD</div>
-          <div class="tier-benefit">Layanan derek gratis 50 km</div>
-        </div>
-        <a href="https://wa.me/6289502384651?text=Saya%20ingin%20info%20BYD%20Gold%20Privilege" target="_blank" class="tier-cta gold">Daftar Sekarang</a>
-      </div>
-      <div class="loyalty-tier platinum rv d3">
-        <div class="tier-icon">💎</div>
-        <div class="tier-name platinum">PLATINUM</div>
-        <div class="tier-sub">Referral 5 unit atau fleet purchase</div>
-        <div class="tier-benefits">
-          <div class="tier-benefit">Semua keuntungan Gold</div>
-          <div class="tier-benefit">Dedicated account manager pribadi</div>
-          <div class="tier-benefit">Diskon fleet special hingga 15%</div>
-          <div class="tier-benefit">Bonus referral Rp 2,5 juta per unit</div>
-          <div class="tier-benefit">Undangan peluncuran model global</div>
-          <div class="tier-benefit">Extended warranty ekstra 2 tahun</div>
-          <div class="tier-benefit">Free charging card 12 bulan</div>
-        </div>
-        <a href="https://wa.me/6289502384651?text=Saya%20ingin%20info%20BYD%20Platinum%20Privilege" target="_blank" class="tier-cta platinum">Bergabung Sekarang</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ═══════ TEST DRIVE BOOKING ═══════ -->
 <section id="testdrive" class="section">
   <div class="max-wrap">
@@ -1206,7 +1235,7 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
       <a href="https://wa.me/6289502384651" target="_blank" class="foot-wa">💬 +62 895-0238-4651</a>
     </div>
     <div class="foot-col"><h4>Model</h4><ul><li><a href="#">BYD Atto 1</a></li><li><a href="#">BYD Dolphin</a></li><li><a href="#">BYD M6</a></li><li><a href="#">BYD Atto 3</a></li><li><a href="#">BYD Seal</a></li><li><a href="#">BYD Sealion 7</a></li><li><a href="#">Denza D9</a></li></ul></div>
-    <div class="foot-col"><h4>Layanan</h4><ul><li><a href="#testdrive">Test Drive</a></li><li><a href="#calculator">Simulasi Kredit</a></li><li><a href="#tradein">Trade-In</a></li><li><a href="#savings">Hitung Hemat</a></li><li><a href="#loyalty">Privilege Club</a></li></ul></div>
+    <div class="foot-col"><h4>Layanan</h4><ul><li><a href="#testdrive">Test Drive</a></li><li><a href="#calculator">Simulasi Kredit</a></li><li><a href="#tradein">Trade-In</a></li><li><a href="#savings">Hitung Hemat</a></li></ul></div>
     <div class="foot-col"><h4>Info</h4><ul><li><a href="#about">Tentang Kami</a></li><li><a href="#dealers">Dealer</a></li><li><a href="#compare">Bandingkan</a></li><li><a href="#faq">FAQ</a></li><li><a href="https://wa.me/6289502384651" target="_blank">Kontak</a></li></ul></div>
   </div>
   <div class="foot-bottom">
@@ -1215,14 +1244,7 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
   </div>
 </footer>
 
-<!-- ═══════ STICKY CTA BAR (NEW) ═══════ -->
-<div id="sticky-bar">
-  <div class="sticky-bar-text">🚗 Konsultasi mobil listrik BYD — <strong>Respon dalam 5 menit!</strong></div>
-  <div class="sticky-bar-btns">
-    <a href="https://wa.me/6289502384651?text=Halo%20BYD!%20Saya%20mau%20konsultasi%20mobil%20listrik." target="_blank" class="sticky-btn sticky-btn-wa">💬 WhatsApp</a>
-    <a href="#testdrive" class="sticky-btn sticky-btn-td">Test Drive</a>
-  </div>
-</div>
+
 
 <!-- ═══════ FLOATING WA ═══════ -->
 <a href="https://wa.me/6289502384651?text=Halo%20BYD!%20Saya%20mau%20tanya%20tentang%20mobil%20BYD" target="_blank" class="wa-float" id="waFloat">
@@ -1370,9 +1392,6 @@ const DEALERS = [
 const navbar=document.getElementById('navbar');
 window.addEventListener('scroll',()=>{
   navbar.classList.toggle('scrolled',scrollY>50);
-  // sticky bar logic
-  const sb=document.getElementById('sticky-bar');
-  sb.classList.toggle('visible',scrollY>500);
 },{passive:true});
 document.getElementById('hamburger').addEventListener('click',function(){
   this.classList.toggle('open');
