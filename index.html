@@ -193,33 +193,114 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 
 /* Tidak ada keyframe zoom — bersih & modern */
 
-/* ↓↓↓ EDIT GAMBAR TIAP SLIDE DI SINI ↓↓↓
-   Ganti url() dengan path gambar Anda.
-   Ukuran ideal: 1920×1080 px, format .jpg atau .webp ↓↓↓ */
+/* ═══════════════════════════════════════════════════════════════
+   PANDUAN GAMBAR HERO SLIDESHOW
+   ───────────────────────────────────────────────────────────────
+   Setiap slide adalah background-image full-screen dengan
+   background-size:cover, artinya gambar akan otomatis terpotong
+   agar selalu menutupi seluruh layar — baik desktop maupun HP.
 
-/* Slide 1 */
+   UKURAN GAMBAR YANG DISARANKAN:
+   ┌─────────────────┬───────────────────────────────────────────┐
+   │ Desktop         │ 1920 × 1080 px  (rasio 16:9, landscape)  │
+   │ Tablet          │ 1280 × 800 px   (rasio 16:10, landscape)  │
+   │ Mobile (HP)     │ 750 × 1300 px   (rasio 9:16, portrait)   │
+   └─────────────────┴───────────────────────────────────────────┘
+
+   ⚠️  PENTING — AGAR GAMBAR FIT DI DESKTOP & MOBILE:
+   ────────────────────────────────────────────────────
+   Karena layar desktop LANDSCAPE dan HP PORTRAIT, satu gambar
+   landscape (16:9) akan terpotong bagian atas/bawah di HP.
+   Solusi terbaik: gunakan background-position yang berbeda
+   untuk mobile dengan @media query (sudah disiapkan di bawah).
+
+   Aturan komposisi:
+   → Letakkan objek utama (mobil) di TENGAH HORIZONTAL gambar
+   → Jangan taruh elemen penting di pinggir kiri/kanan
+   → Sisakan ruang kosong di tengah atas untuk teks hero
+   → Hindari gambar terlalu terang — overlay gelap akan ditimpa
+
+   FORMAT & UKURAN FILE:
+   → Gunakan .webp  → kualitas terbaik, file paling kecil
+   → Atau .jpg      → kompatibel luas, kompres ke ≤ 300 KB
+   → Hindari .png untuk foto — ukuran file terlalu besar
+
+   CARA MENGGANTI GAMBAR:
+   → Ganti url('pictures/nama-file.jpg') di masing-masing slide
+   → Nama file TIDAK BOLEH ada spasi — gunakan tanda - atau _
+     (contoh: bg-hero1.jpg  atau  bg_hero1.webp)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── SLIDE 1 ──────────────────────────────────────────────────
+   Gambar: pictures/bg hero1.png  (nama file saat ini ada spasi,
+   disarankan rename ke: bg-hero1.webp atau bg-hero1.jpg)
+   Ukuran ideal  : 1920 × 1080 px (desktop) / 750 × 1300 px (HP)
+   Posisi default: center center  → subjek utama di tengah gambar
+   ─────────────────────────────────────────────────────────── */
 .hero-slide:nth-child(1){
   background-image: url('pictures/bg%20hero1.png');
+  background-position: center center; /* Ganti ke "center top" jika mobil terpotong di HP */
 }
 
-/* Slide 2 */
+/* ── SLIDE 2 ──────────────────────────────────────────────────
+   Ukuran ideal  : 1920 × 1080 px (desktop) / 750 × 1300 px (HP)
+   Posisi default: center center
+   Tip           : jika ada teks/logo di gambar, pastikan di tengah
+   ─────────────────────────────────────────────────────────── */
 .hero-slide:nth-child(2){
   background-image: url('pictures/bg%20hero2.png');
+  background-position: center center;
 }
 
-/* Slide 3 */
+/* ── SLIDE 3 ──────────────────────────────────────────────────
+   Ukuran ideal  : 1920 × 1080 px (desktop) / 750 × 1300 px (HP)
+   Posisi default: center center
+   ─────────────────────────────────────────────────────────── */
 .hero-slide:nth-child(3){
   background-image: url('pictures/bg%20hero3.png');
+  background-position: center center;
 }
 
-/* Slide 4 */
+/* ── SLIDE 4 ──────────────────────────────────────────────────
+   Ukuran ideal  : 1920 × 1080 px (desktop) / 750 × 1300 px (HP)
+   Posisi default: center center
+   ─────────────────────────────────────────────────────────── */
 .hero-slide:nth-child(4){
   background-image: url('pictures/bg%20hero4.png');
+  background-position: center center;
 }
 
-/* Slide 5 */
+/* ── SLIDE 5 ──────────────────────────────────────────────────
+   Ukuran ideal  : 1920 × 1080 px (desktop) / 750 × 1300 px (HP)
+   Posisi default: center center
+   ─────────────────────────────────────────────────────────── */
 .hero-slide:nth-child(5){
   background-image: url('pictures/bg%20hero5.jpeg');
+  background-position: center center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE OVERRIDE — background-position untuk HP (≤ 480px)
+   ───────────────────────────────────────────────────────────────
+   Karena layar HP portrait, gambar landscape akan terpotong
+   bagian kiri & kanan. Atur posisi di sini agar subjek utama
+   (biasanya mobil) tetap terlihat di tengah layar HP.
+
+   Nilai yang umum dipakai:
+   → "center center"  — default, subjek di tengah gambar
+   → "center top"     — tampilkan bagian ATAS gambar (langit/hood)
+   → "center bottom"  — tampilkan bagian BAWAH gambar (aspal/roda)
+   → "60% center"     — geser fokus ke kanan (jika mobil di kanan)
+   → "40% center"     — geser fokus ke kiri  (jika mobil di kiri)
+
+   Sesuaikan nilai tiap slide sesuai komposisi foto masing-masing.
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .hero-slide:nth-child(1) { background-position: center center; } /* ← sesuaikan jika mobil terpotong */
+  .hero-slide:nth-child(2) { background-position: center center; } /* ← sesuaikan jika mobil terpotong */
+  .hero-slide:nth-child(3) { background-position: center center; } /* ← sesuaikan jika mobil terpotong */
+  .hero-slide:nth-child(4) { background-position: center center; } /* ← sesuaikan jika mobil terpotong */
+  .hero-slide:nth-child(5) { background-position: center center; } /* ← sesuaikan jika mobil terpotong */
 }
 
 /* ─────────────────────────────────────────────────────
@@ -366,6 +447,40 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 ═══════════════════════════════════════════ */
 #about{background:linear-gradient(180deg,var(--black),var(--dark))}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+/* ═══════════════════════════════════════════════════════════════
+   PANDUAN GAMBAR — SECTION "TENTANG" (About)
+   ───────────────────────────────────────────────────────────────
+   Slot gambar berada di dalam .about-img (kotak kiri section About).
+   Saat ini berisi SVG placeholder berbentuk mobil.
+
+   CARA MENGGANTI KE FOTO NYATA:
+   ────────────────────────────────
+   Hapus seluruh tag <svg>...</svg> di dalam .about-img di HTML,
+   lalu ganti dengan:
+     <img src="images/about-byd.jpg" alt="BYD Indonesia Showroom"
+          class="about-real-img">
+
+   Lalu tambahkan CSS berikut:
+     .about-real-img {
+       width: 100%;
+       height: 100%;
+       object-fit: cover;        ← gambar mengisi kotak, tidak distorsi
+       object-position: center;  ← fokus ke tengah gambar
+       border-radius: 6px;
+     }
+
+   UKURAN GAMBAR YANG DISARANKAN:
+   ┌─────────────────┬──────────────────────────────────────────┐
+   │ Desktop         │ 720 × 540 px  (rasio 4:3)               │
+   │ Mobile (HP)     │ Sama, karena kotak ini full-width di HP  │
+   └─────────────────┴──────────────────────────────────────────┘
+
+   ⚠️  MOBILE: Di HP kotak ini menjadi full-width (1 kolom).
+   Gunakan object-position untuk mengatur bagian mana yang tampil.
+   Contoh: "center top" agar wajah/atap mobil tidak terpotong.
+
+   Format: .webp (terbaik) atau .jpg ≤ 150 KB
+   ═══════════════════════════════════════════════════════════════ */
 .about-vis{position:relative}
 .about-img{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,rgba(0,102,204,.15),rgba(0,212,255,.07));border:1px solid rgba(0,212,255,.14);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .about-orb{position:absolute;width:260px;height:260px;background:radial-gradient(circle,rgba(0,102,204,.28) 0%,transparent 70%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);animation:orbPulse 3s ease-in-out infinite}
@@ -462,21 +577,28 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 #features{background:linear-gradient(180deg,var(--dark),var(--black))}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(0,212,255,.1);margin-top:56px}
 
-/* ─────────────────────────────────────────────────────
-   FEAT-ITEM BACKGROUND IMAGE
-   ─────────────────────────────────────────────────────
-   Setiap kotak inovasi mendukung background gambar.
-   Ukuran gambar ideal: 600 × 420 px (rasio 3:2, landscape)
-   Format rekomendasi: .jpg (dioptimalkan, maks 80 KB) atau .webp
+/* ═══════════════════════════════════════════════════════════════
+   PANDUAN GAMBAR — SECTION "INOVASI" (Features Grid)
+   ───────────────────────────────────────────────────────────────
+   Ada 6 kotak inovasi, masing-masing mendukung background-image.
    Gambar akan tertutup overlay gelap agar teks tetap terbaca.
 
-   Untuk mengganti gambar tiap kotak:
-   → .feat-item:nth-child(1) { background-image: url('images/feat-blade-battery.jpg'); }
-   → .feat-item:nth-child(2) { background-image: url('images/feat-dilink.jpg'); }
-   → dst.
+   UKURAN GAMBAR YANG DISARANKAN:
+   ┌─────────────────┬──────────────────────────────────────────┐
+   │ Desktop         │ 600 × 420 px  (rasio 3:2, landscape)    │
+   │ Tablet (768px)  │ Grid berubah jadi 2 kolom — gambar tetap │
+   │ Mobile (HP)     │ Grid jadi 1 kolom — gambar full-width    │
+   │                 │ Ukuran yang sama masih cocok (cover mode) │
+   └─────────────────┴──────────────────────────────────────────┘
 
-   Edit bagian CSS di bawah ini (satu per kotak):
-   ───────────────────────────────────────────────────── */
+   ⚠️  MOBILE: Di HP kotak menjadi 1 kolom full-width.
+   Gambar akan terpotong secara vertikal karena kotak lebih pendek.
+   → Letakkan subjek utama di TENGAH gambar (bukan pojok)
+   → Gunakan background-position: center untuk tiap kotak
+
+   Format: .webp (terbaik) atau .jpg ≤ 80 KB per gambar
+   Pastikan semua 6 gambar ukuran filenya ringan karena load serentak.
+   ═══════════════════════════════════════════════════════════════ */
 .feat-item{
   padding:36px 28px;
   border-right:1px solid rgba(0,212,255,.08);
@@ -502,26 +624,89 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
   background:linear-gradient(160deg, rgba(6,6,16,.65) 0%, rgba(6,6,16,.5) 60%, rgba(0,30,70,.65) 100%);
 }
 
-/* ↓ EDIT: Ganti URL gambar untuk setiap kotak inovasi di bawah ini ↓ */
-/* Ukuran ideal: 600×420 px, format .jpg/.webp */
+/* ───────────────────────────────────────────────────────────────
+   GAMBAR TIAP KOTAK INOVASI — edit URL di bawah ini
+   ───────────────────────────────────────────────────────────────
+   Folder  : images/
+   Format  : .webp (rekomendasi) atau .jpg
+   Ukuran  : 600 × 420 px, maks 80 KB per file
+   Posisi  : background-position:center (default, bisa diubah)
 
-/* Kotak 1 — Blade Battery™ */
-.feat-item:nth-child(1){background-image:url('images/feat-blade-battery.jpg');}
+   Tip komposisi foto:
+   → Foto close-up komponen (baterai, layar, mesin) lebih menarik
+   → Hindari foto terlalu gelap — overlay di atas sudah gelap
+   → Foto dengan warna biru/cyan akan menyatu bagus dengan tema
+   ─────────────────────────────────────────────────────────────── */
 
-/* Kotak 2 — DiLink OS */
-.feat-item:nth-child(2){background-image:url('images/feat-dilink-os.jpg');}
+/* ── Kotak 1 — Blade Battery™ ─────────────────────────────────
+   Saran foto: close-up modul baterai BYD Blade, atau
+               tumpukan sel baterai dari atas (top-view)
+   ─────────────────────────────────────────────────────────── */
+.feat-item:nth-child(1){
+  background-image: url('images/feat-blade-battery.jpg');
+  background-position: center center; /* ← ganti jika subjek terpotong */
+}
 
-/* Kotak 3 — e-Platform 3.0 */
-.feat-item:nth-child(3){background-image:url('images/feat-eplatform.jpg');}
+/* ── Kotak 2 — DiLink OS ──────────────────────────────────────
+   Saran foto: layar infotainment DiLink, atau
+               dashboard cockpit dari kursi pengemudi
+   ─────────────────────────────────────────────────────────── */
+.feat-item:nth-child(2){
+  background-image: url('images/feat-dilink-os.jpg');
+  background-position: center center;
+}
 
-/* Kotak 4 — DiSus-C Adaptive */
-.feat-item:nth-child(4){background-image:url('images/feat-disusc.jpg');}
+/* ── Kotak 3 — e-Platform 3.0 ────────────────────────────────
+   Saran foto: chassis/platform EV dari bawah mobil (bawah), atau
+               diagram skema e-Platform yang dicetak di material
+   ─────────────────────────────────────────────────────────── */
+.feat-item:nth-child(3){
+  background-image: url('images/feat-eplatform.jpg');
+  background-position: center center;
+}
 
-/* Kotak 5 — Advanced Safety Suite */
-.feat-item:nth-child(5){background-image:url('images/feat-safety.jpg');}
+/* ── Kotak 4 — DiSus-C Adaptive ──────────────────────────────
+   Saran foto: close-up suspensi/shock absorber roda BYD, atau
+               foto kaki-kaki mobil dari samping bawah
+   ─────────────────────────────────────────────────────────── */
+.feat-item:nth-child(4){
+  background-image: url('images/feat-disusc.jpg');
+  background-position: center center;
+}
 
-/* Kotak 6 — Green Journey */
-.feat-item:nth-child(6){background-image:url('images/feat-green-journey.jpg');}
+/* ── Kotak 5 — Advanced Safety Suite ────────────────────────
+   Saran foto: airbag atau sabuk pengaman, atau
+               tampak depan mobil dengan sensor ADAS terlihat
+   ─────────────────────────────────────────────────────────── */
+.feat-item:nth-child(5){
+  background-image: url('images/feat-safety.jpg');
+  background-position: center center;
+}
+
+/* ── Kotak 6 — Green Journey ─────────────────────────────────
+   Saran foto: mobil BYD di alam terbuka / hutan / pegunungan, atau
+               charging port terhubung dengan latar hijau
+   ─────────────────────────────────────────────────────────── */
+.feat-item:nth-child(6){
+  background-image: url('images/feat-green-journey.jpg');
+  background-position: center center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE OVERRIDE — background-position untuk HP (≤ 480px)
+   ───────────────────────────────────────────────────────────────
+   Di HP kotak jadi 1 kolom penuh & lebih pendek secara vertikal,
+   sehingga gambar landscape terpotong atas/bawahnya.
+   Atur posisi di sini agar subjek utama tetap terlihat.
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .feat-item:nth-child(1) { background-position: center center; } /* Blade Battery  — sesuaikan jika terpotong */
+  .feat-item:nth-child(2) { background-position: center center; } /* DiLink OS       — sesuaikan jika terpotong */
+  .feat-item:nth-child(3) { background-position: center center; } /* e-Platform      — sesuaikan jika terpotong */
+  .feat-item:nth-child(4) { background-position: center center; } /* DiSus-C         — sesuaikan jika terpotong */
+  .feat-item:nth-child(5) { background-position: center center; } /* Safety Suite    — sesuaikan jika terpotong */
+  .feat-item:nth-child(6) { background-position: center center; } /* Green Journey   — sesuaikan jika terpotong */
+}
 
 .feat-item:nth-child(3n){border-right:none}
 .feat-item:nth-child(n+4){border-bottom:none}
@@ -934,11 +1119,27 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
        Interval pergantian slide: ubah SLIDE_INTERVAL (milidetik) di <script>
        ─────────────────────────────────────────────────────────── -->
   <div class="hero-slides" id="heroSlides">
-    <div class="hero-slide active"></div><!-- Slide 1: images/hero-slide-1.jpg -->
-    <div class="hero-slide"></div>        <!-- Slide 2: images/hero-slide-2.jpg -->
-    <div class="hero-slide"></div>        <!-- Slide 3: images/hero-slide-3.jpg -->
-    <div class="hero-slide"></div>        <!-- Slide 4: images/hero-slide-4.jpg -->
-    <div class="hero-slide"></div>        <!-- Slide 5: images/hero-slide-5.jpg -->
+    <!-- Slide 1 → CSS: .hero-slide:nth-child(1) { background-image: url('pictures/bg-hero1.webp') }
+                  Ukuran: 1920×1080 px (desktop) | 750×1300 px (HP portrait)
+                  File saat ini: pictures/bg hero1.png — rename ke bg-hero1.webp -->
+    <div class="hero-slide active"></div>
+
+    <!-- Slide 2 → CSS: .hero-slide:nth-child(2) { background-image: url('pictures/bg-hero2.webp') }
+                  Ukuran: 1920×1080 px (desktop) | 750×1300 px (HP portrait) -->
+    <div class="hero-slide"></div>
+
+    <!-- Slide 3 → CSS: .hero-slide:nth-child(3) { background-image: url('pictures/bg-hero3.webp') }
+                  Ukuran: 1920×1080 px (desktop) | 750×1300 px (HP portrait) -->
+    <div class="hero-slide"></div>
+
+    <!-- Slide 4 → CSS: .hero-slide:nth-child(4) { background-image: url('pictures/bg-hero4.webp') }
+                  Ukuran: 1920×1080 px (desktop) | 750×1300 px (HP portrait) -->
+    <div class="hero-slide"></div>
+
+    <!-- Slide 5 → CSS: .hero-slide:nth-child(5) { background-image: url('pictures/bg-hero5.webp') }
+                  Ukuran: 1920×1080 px (desktop) | 750×1300 px (HP portrait)
+                  File saat ini: pictures/bg hero5.jpeg — rename ke bg-hero5.webp -->
+    <div class="hero-slide"></div>
   </div>
 
   <!-- Overlay, grid, scan -->
@@ -1001,6 +1202,25 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
     <div class="about-grid">
       <div class="about-vis rv-l">
         <div class="about-img">
+          <!-- ═══════════════════════════════════════════════════════
+               SLOT GAMBAR — Section "Tentang BYD Indonesia"
+               ═══════════════════════════════════════════════════════
+               Saat ini: SVG placeholder (animasi mobil)
+               Untuk ganti ke foto nyata:
+                 1. Hapus seluruh blok <svg>...</svg> di bawah ini
+                 2. Ganti dengan:
+                    <img src="images/about-byd.jpg"
+                         alt="BYD Indonesia"
+                         class="about-real-img">
+                 3. Tambahkan CSS:
+                    .about-real-img {
+                      width:100%; height:100%;
+                      object-fit:cover;
+                      object-position:center;  ← ganti ke "center top"
+                    }                             jika atap mobil terpotong
+               Ukuran ideal : 720 × 540 px (rasio 4:3)
+               Format       : .webp atau .jpg ≤ 150 KB
+               ═══════════════════════════════════════════════════════ -->
           <div class="about-orb"></div>
           <svg viewBox="0 0 500 220" fill="none" style="width:88%;position:relative;z-index:1">
             <ellipse cx="250" cy="200" rx="200" ry="11" fill="rgba(0,212,255,.07)"/>
