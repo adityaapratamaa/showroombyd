@@ -34,14 +34,50 @@ ul{list-style:none}
 /* ═══════════════════════════════════════════
    LOADER
 ═══════════════════════════════════════════ */
-#loader{position:fixed;inset:0;background:var(--black);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease}
+#loader{
+  position:fixed;inset:0;background:var(--black);z-index:99999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .8s ease,visibility .8s ease;
+  padding:0 8%;
+  box-sizing:border-box;
+}
 #loader.hide{opacity:0;visibility:hidden;pointer-events:none}
-.ld-logo{font-family:'Orbitron',monospace;font-size:clamp(3rem,10vw,5.5rem);font-weight:900;letter-spacing:.25em;background:linear-gradient(135deg,#fff 0%,var(--cyan) 50%,var(--blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:logoPulse 1.8s ease-in-out infinite;margin-bottom:10px}
-.ld-tag{font-size:.75rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(200,214,229,.5);margin-bottom:56px}
-.ld-bar-wrap{width:min(280px,80vw);height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:16px}
+.ld-logo{
+  font-family:'Orbitron',monospace;
+  font-size:clamp(2.8rem,12vw,5.5rem);
+  font-weight:900;
+  letter-spacing:.25em;
+  background:linear-gradient(135deg,#fff 0%,var(--cyan) 50%,var(--blue) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:logoPulse 1.8s ease-in-out infinite;
+  margin-bottom:12px;
+  text-align:center;
+  width:100%;
+}
+.ld-tag{
+  font-size:clamp(.6rem,.35em + 1.5vw,.75rem);
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:rgba(200,214,229,.45);
+  margin-bottom:52px;
+  text-align:center;
+  width:100%;
+  padding:0 4px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.ld-bar-wrap{width:min(280px,80vw);height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:14px}
 .ld-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));width:0%;transition:width .04s linear;box-shadow:0 0 12px var(--cyan)}
 .ld-pct{font-family:'Orbitron',monospace;font-size:.72rem;color:var(--cyan);letter-spacing:.15em}
 .ld-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.ld-content{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  width:100%;max-width:480px;
+  padding:0 8%;
+  box-sizing:border-box;
+}
 .ld-p{position:absolute;width:2px;height:2px;background:var(--cyan);border-radius:50%;animation:ptcl linear infinite}
 @keyframes ptcl{0%{transform:translateY(100vh);opacity:0}10%{opacity:1}90%{opacity:.5}100%{transform:translateY(-20px);opacity:0}}
 @keyframes logoPulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,212,255,.4))}50%{filter:drop-shadow(0 0 60px rgba(0,212,255,.9))}}
@@ -289,11 +325,11 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
 .hero-h1 .l1{display:block;color:#ffffff;text-shadow:0 2px 30px rgba(0,0,0,.5)}
 .hero-h1 .l2{display:block;background:linear-gradient(135deg,var(--blue) 0%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 40px rgba(0,212,255,.5))}
 .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s .7s both}
-.hero-stats{display:flex;justify-content:center;align-items:center;gap:0;flex-wrap:wrap;position:relative;z-index:1;width:100%;max-width:680px;margin:48px auto 0;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);border-radius:6px;animation:fadeUp .8s .9s both;backdrop-filter:blur(12px)}
-.hero-stat{flex:1;min-width:120px;text-align:center;padding:20px 16px;border-right:1px solid rgba(255,255,255,.08)}
+.hero-stats{display:flex;justify-content:center;align-items:stretch;gap:0;flex-wrap:wrap;position:relative;z-index:1;width:100%;max-width:680px;margin:48px auto 0;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);border-radius:6px;animation:fadeUp .8s .9s both;backdrop-filter:blur(12px)}
+.hero-stat{flex:1;min-width:120px;text-align:center;padding:20px 16px;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80px}
 .hero-stat:last-child{border-right:none}
-.stat-num{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,3.5vw,2rem);font-weight:700;color:var(--cyan);display:block;line-height:1;text-shadow:0 0 20px rgba(0,212,255,.4)}
-.stat-lbl{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,214,229,.55);display:block;margin-top:6px}
+.stat-num{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,3.5vw,2rem);font-weight:700;color:var(--cyan);display:flex;align-items:baseline;justify-content:center;line-height:1;text-shadow:0 0 20px rgba(0,212,255,.4);white-space:nowrap}
+.stat-lbl{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,214,229,.55);display:block;margin-top:6px;white-space:nowrap}
 /* Scroll hint removed */
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 
@@ -801,6 +837,10 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
   #chat-widget{right:16px;width:300px}
 }
 @media(max-width:480px){
+  /* Loader mobile fix */
+  .ld-logo{font-size:clamp(2.6rem,16vw,4rem);letter-spacing:.18em}
+  .ld-tag{font-size:.55rem;letter-spacing:.18em;white-space:normal;text-align:center;line-height:1.6}
+  .ld-bar-wrap{width:72vw}
   /* Hero badge - compact, no wrap */
   .hero-badge{
     font-size:.6rem;
@@ -851,10 +891,12 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
 <!-- ═══════ LOADER ═══════ -->
 <div id="loader">
   <div class="ld-particles" id="ldParticles"></div>
-  <div class="ld-logo">BYD</div>
-  <div class="ld-tag">Build Your Dreams · Electric Future</div>
-  <div class="ld-bar-wrap"><div class="ld-bar" id="ldBar"></div></div>
-  <div class="ld-pct" id="ldPct">0%</div>
+  <div class="ld-content">
+    <div class="ld-logo">BYD</div>
+    <div class="ld-tag">Build Your Dreams · Electric Future</div>
+    <div class="ld-bar-wrap"><div class="ld-bar" id="ldBar"></div></div>
+    <div class="ld-pct" id="ldPct">0%</div>
+  </div>
 </div>
 
 <!-- ═══════ NAV — clean, no promo offset ═══════ -->
@@ -1582,20 +1624,36 @@ window.addEventListener('scroll',()=>{
 ══════════════════════════════════════════ */
 function startCounters(){
   document.querySelectorAll('[data-to]').forEach(el=>{
-    const target=+el.dataset.to,suf=el.dataset.suf||'';
-    /* Pre-set final value to reserve space — eliminates layout shift */
-    el.textContent=target+suf;
-    const finalW=el.offsetWidth;
-    el.style.minWidth=finalW+'px';
-    el.style.display='inline-block';
-    el.textContent='0'+suf;
-    let cur=0;
-    const step=target/55;
-    const t=setInterval(()=>{
-      cur=Math.min(cur+step,target);
-      el.textContent=Math.floor(cur)+suf;
-      if(cur>=target)clearInterval(t);
-    },22);
+    const target = +el.dataset.to;
+    const suf    = el.dataset.suf || '';
+
+    /* Split into two child spans: number (fixed width) + suffix (static).
+       This way the suffix never shifts position during animation. */
+    const numSpan = document.createElement('span');
+    numSpan.style.cssText = 'display:inline-block;text-align:right;vertical-align:baseline';
+    numSpan.textContent = String(target);
+
+    const sufSpan = document.createElement('span');
+    sufSpan.textContent = suf;
+
+    el.textContent = '';
+    el.appendChild(numSpan);
+    el.appendChild(sufSpan);
+
+    /* Measure the final width (font must be loaded at this point since
+       loader already ran), then lock it so digits 0→N never reflow. */
+    const lockedPx = numSpan.getBoundingClientRect().width;
+    numSpan.style.width = Math.ceil(lockedPx) + 'px';
+
+    /* Animate from 0 */
+    numSpan.textContent = '0';
+    let cur = 0;
+    const step = target / 55;
+    const timer = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      numSpan.textContent = String(Math.floor(cur));
+      if (cur >= target) clearInterval(timer);
+    }, 22);
   });
 }
 
