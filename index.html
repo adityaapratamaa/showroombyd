@@ -98,57 +98,178 @@ nav.scrolled{background:rgba(6,6,16,.97);border-bottom-color:rgba(0,212,255,.2);
   overflow:hidden;
 }
 
-/* ─────────────────────────────────────────────────────
-   HERO BACKGROUND — IMAGE atau VIDEO
-   ─────────────────────────────────────────────────────
-   Untuk menggunakan GAMBAR sebagai background hero:
-   → Ganti nilai background-image pada .hero-media-img
-   → Ukuran gambar yang ideal: 1920 × 1080 px (landscape, rasio 16:9)
-   → Format rekomendasi: .jpg (dioptimalkan, maks 500 KB) atau .webp
-   → Contoh: background-image: url('images/byd-hero.jpg');
+/* ═══════════════════════════════════════════
+   HERO SLIDESHOW — AUTO-ROTATING BACKGROUND
+   ═══════════════════════════════════════════
+   Cara mengganti gambar:
+   → Edit CSS .hero-slide:nth-child(N) { background-image: url('...') }
+   → Ukuran ideal tiap gambar: 1920 × 1080 px (16:9, landscape)
+   → Format rekomendasi: .jpg (dioptimalkan ≤ 400 KB) atau .webp
+   → Tambah/kurangi slide: edit array HERO_SLIDES di bagian <script>
+   → Ganti interval (ms): ubah SLIDE_INTERVAL di bagian <script>
+   ─────────────────────────────────────────── */
 
-   Untuk menggunakan VIDEO sebagai background hero:
-   → Ubah display .hero-media-img menjadi display:none
-   → Ubah display .hero-media-video menjadi display:block
-   → Ganti src pada elemen <source> di HTML dengan path video Anda
-   → Ukuran video yang ideal: 1920 × 1080 px, format .mp4 (H.264)
-   → Resolusi maks rekomendasi: 1080p, 30fps, bitrate ~2-5 Mbps
-   ───────────────────────────────────────────────────── */
-
-/* Layer 1: gambar atau video background */
-.hero-media-img{
+/* Kontainer slideshow */
+.hero-slides{
   position:absolute;inset:0;z-index:0;
-  /* ↓ EDIT: Ganti URL gambar hero di sini ↓ */
-  background-image: url('pictures/bg\ hero.png'); /* Ukuran ideal: 1920×1080 px, format .jpg/.webp */
+  overflow:hidden;
+}
+
+/* Setiap slide individual */
+.hero-slide{
+  position:absolute;inset:0;
   background-size:cover;
   background-position:center center;
   background-repeat:no-repeat;
+  opacity:0;
+  transition:opacity 1.2s cubic-bezier(0.4,0,0.2,1);
+  /* Ken Burns effect — zoom halus saat tampil */
+  animation:none;
 }
-.hero-media-video{
-  position:absolute;inset:0;z-index:0;
-  display:none; /* Ubah ke 'block' jika menggunakan video */
-  overflow:hidden;
+.hero-slide.active{
+  opacity:1;
+  animation:kenBurns 6s ease-in-out forwards;
 }
-.hero-media-video video{
-  width:100%;height:100%;object-fit:cover;object-position:center;
+@keyframes kenBurns{
+  0%  {transform:scale(1)   translateX(0)    translateY(0)}
+  100%{transform:scale(1.06) translateX(-8px) translateY(-4px)}
 }
 
-/* Layer 2: overlay gelap agar teks tetap terbaca */
+/* ↓↓↓ EDIT GAMBAR TIAP SLIDE DI SINI ↓↓↓
+   Ganti url() dengan path gambar Anda.
+   Ukuran ideal: 1920×1080 px, format .jpg atau .webp ↓↓↓ */
+
+/* Slide 1 — Hero utama (contoh: eksterior BYD Seal depan) */
+.hero-slide:nth-child(1){
+  background-image: url('images/hero-slide-1.jpg');
+  /* Placeholder gradient (hapus baris ini setelah gambar dipasang): */
+  background-image: linear-gradient(135deg,#020818 0%,#051530 30%,#071e42 60%,#030d24 100%);
+}
+
+/* Slide 2 — (contoh: eksterior BYD Sealion 7 samping) */
+.hero-slide:nth-child(2){
+  background-image: url('images/hero-slide-2.jpg');
+  /* Placeholder: */
+  background-image: linear-gradient(135deg,#060318 0%,#0e052e 35%,#160a40 65%,#080420 100%);
+}
+
+/* Slide 3 — (contoh: interior premium / dashboard) */
+.hero-slide:nth-child(3){
+  background-image: url('images/hero-slide-3.jpg');
+  /* Placeholder: */
+  background-image: linear-gradient(135deg,#020c10 0%,#041820 35%,#052535 65%,#021018 100%);
+}
+
+/* Slide 4 — (contoh: BYD Atto 3 tampak malam / city lights) */
+.hero-slide:nth-child(4){
+  background-image: url('images/hero-slide-4.jpg');
+  /* Placeholder: */
+  background-image: linear-gradient(135deg,#050818 0%,#0a1228 35%,#081a3a 65%,#04091e 100%);
+}
+
+/* Slide 5 — (contoh: charging / teknologi Blade Battery) */
+.hero-slide:nth-child(5){
+  background-image: url('images/hero-slide-5.jpg');
+  /* Placeholder: */
+  background-image: linear-gradient(135deg,#020c08 0%,#041a10 35%,#062a18 65%,#031008 100%);
+}
+
+/* ─────────────────────────────────────────────────────
+   OVERLAY di atas slideshow — pastikan teks terbaca
+   ───────────────────────────────────────────────────── */
 .hero-overlay{
   position:absolute;inset:0;z-index:1;
   background:
-    linear-gradient(180deg, rgba(6,6,16,.65) 0%, rgba(6,6,16,.45) 40%, rgba(6,6,16,.7) 100%),
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,102,204,.25) 0%, transparent 60%);
+    linear-gradient(180deg,
+      rgba(6,6,16,.55) 0%,
+      rgba(6,6,16,.30) 35%,
+      rgba(6,6,16,.30) 60%,
+      rgba(6,6,16,.75) 100%
+    ),
+    radial-gradient(ellipse 70% 50% at 50% 40%, rgba(0,80,180,.18) 0%, transparent 70%);
+  pointer-events:none;
 }
 
-/* Layer 3: grid dekoratif tipis (opsional, bisa dihapus) */
-.hero-grid{position:absolute;inset:0;z-index:2;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);animation:gridShift 20s linear infinite}
+/* Dekorasi grid tipis */
+.hero-grid{position:absolute;inset:0;z-index:2;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);animation:gridShift 20s linear infinite;pointer-events:none}
 @keyframes gridShift{0%{background-position:0 0}100%{background-position:60px 60px}}
 
-/* Layer 4: scan line animasi */
-.hero-scan{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 0%,rgba(0,212,255,.02) 50%,transparent 100%);animation:scanAnim 6s ease-in-out infinite;pointer-events:none}
+/* Scan line */
+.hero-scan{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 0%,rgba(0,212,255,.015) 50%,transparent 100%);animation:scanAnim 7s ease-in-out infinite;pointer-events:none}
 @keyframes scanAnim{0%,100%{transform:translateY(-100%)}50%{transform:translateY(100%)}}
 
+/* ─────────────────────────────────────────────────────
+   SLIDE DOTS — indikator di bawah hero
+   ───────────────────────────────────────────────────── */
+.hero-dots{
+  position:absolute;
+  bottom:32px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:4;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.hero-dot{
+  width:28px;height:3px;
+  border-radius:2px;
+  background:rgba(255,255,255,.25);
+  cursor:pointer;
+  transition:all .4s ease;
+  position:relative;
+  overflow:hidden;
+}
+.hero-dot::after{
+  content:'';
+  position:absolute;top:0;left:0;
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  transition:width 0s;
+}
+.hero-dot.active{
+  width:52px;
+  background:rgba(255,255,255,.15);
+}
+.hero-dot.active::after{
+  width:100%;
+  transition:width var(--slide-duration,6000ms) linear;
+}
+
+/* ─────────────────────────────────────────────────────
+   ARROW CONTROLS — prev/next kiri & kanan
+   ───────────────────────────────────────────────────── */
+.hero-arrow{
+  position:absolute;
+  top:50%;transform:translateY(-50%);
+  z-index:4;
+  width:44px;height:44px;
+  background:rgba(0,212,255,.08);
+  border:1px solid rgba(0,212,255,.2);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(200,214,229,.7);
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .3s;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.hero-arrow:hover{
+  background:rgba(0,212,255,.2);
+  border-color:var(--cyan);
+  color:var(--white);
+  box-shadow:0 0 20px rgba(0,212,255,.25);
+}
+.hero-arrow.prev{left:28px}
+.hero-arrow.next{right:28px}
+@media(max-width:768px){
+  .hero-arrow{display:none}
+  .hero-dot{width:22px}
+  .hero-dot.active{width:40px}
+}
+
+/* Konten hero di atas semua layer */
 .hero-content{position:relative;z-index:3;text-align:center;width:100%;max-width:860px}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);border-radius:100px;padding:6px 18px;font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan);margin-bottom:28px;animation:fadeUp .8s .3s both}
 .hero-badge-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:blink 1.2s ease-in-out infinite;flex-shrink:0}
@@ -709,38 +830,40 @@ footer{background:rgba(4,4,12,.99);border-top:1px solid rgba(0,212,255,.1);paddi
 <!-- ═══════ HERO ═══════ -->
 <section id="hero">
 
-  <!-- ─────────────────────────────────────────────────────
-       HERO BACKGROUND MEDIA
-       ─────────────────────────────────────────────────────
-       OPSI A — GAMBAR (aktif secara default):
-       → Ganti 'images/byd-hero.jpg' dengan path gambar Anda
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO SLIDESHOW — BACKGROUND OTOMATIS BERGANTI
+       ═══════════════════════════════════════════════════════════
+       Cara mengganti gambar slide:
+       → Edit CSS .hero-slide:nth-child(N) { background-image: url('path/ke/gambar.jpg') }
        → Ukuran ideal: 1920 × 1080 px (landscape 16:9)
-       → Format: .jpg (maks 500 KB) atau .webp
+       → Format: .jpg (≤ 400 KB) atau .webp (lebih ringan)
 
-       OPSI B — VIDEO (matikan A, aktifkan B):
-       → Ubah style .hero-media-img menjadi display:none (di CSS)
-       → Ubah style .hero-media-video menjadi display:block (di CSS)
-       → Ganti src video di bawah dengan path video Anda
-       → Ukuran ideal: 1920 × 1080 px, .mp4 H.264, 30fps, ~2-5 Mbps
-       ───────────────────────────────────────────────────── -->
+       Cara menambah/mengurangi slide:
+       → Tambah/hapus <div class="hero-slide"></div> di bawah
+       → Sesuaikan CSS .hero-slide:nth-child(N) yang baru
+       → Array HERO_SLIDE_COUNT di <script> akan otomatis menyesuaikan
 
-  <!-- OPSI A: Gambar background -->
-  <div class="hero-media-img"></div>
-
-  <!-- OPSI B: Video background (hapus komentar jika ingin pakai video) -->
-  <!--
-  <div class="hero-media-video">
-    <video autoplay muted loop playsinline>
-      <source src="videos/byd-hero.mp4" type="video/mp4">
-      <!-- Fallback format tambahan (opsional): -->
-      <!-- <source src="videos/byd-hero.webm" type="video/webm"> -->
-    </video>
+       Interval pergantian slide: ubah SLIDE_INTERVAL (milidetik) di <script>
+       ─────────────────────────────────────────────────────────── -->
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active"></div><!-- Slide 1: images/hero-slide-1.jpg -->
+    <div class="hero-slide"></div>        <!-- Slide 2: images/hero-slide-2.jpg -->
+    <div class="hero-slide"></div>        <!-- Slide 3: images/hero-slide-3.jpg -->
+    <div class="hero-slide"></div>        <!-- Slide 4: images/hero-slide-4.jpg -->
+    <div class="hero-slide"></div>        <!-- Slide 5: images/hero-slide-5.jpg -->
   </div>
 
-  <!-- Overlay gelap + dekorasi -->
+  <!-- Overlay, grid, scan -->
   <div class="hero-overlay"></div>
   <div class="hero-grid"></div>
   <div class="hero-scan"></div>
+
+  <!-- Arrow prev/next -->
+  <button class="hero-arrow prev" id="heroPrev" aria-label="Slide sebelumnya">&#8592;</button>
+  <button class="hero-arrow next" id="heroNext" aria-label="Slide berikutnya">&#8594;</button>
+
+  <!-- Dot indicators -->
+  <div class="hero-dots" id="heroDots"></div>
 
   <div class="hero-content">
     <div class="hero-badge"><span class="hero-badge-dot"></span>Official BYD Indonesia — Authorized Dealer</div>
@@ -1981,6 +2104,93 @@ document.addEventListener('keydown',e=>{
   if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C','K'].includes(e.key.toUpperCase()))||(e.ctrlKey&&e.key==='u')){e.preventDefault();return false}
 });
 document.addEventListener('selectstart',e=>{if(!e.target.closest('input,textarea,select'))e.preventDefault()});
+
+/* ══════════════════════════════════════════
+   HERO SLIDESHOW
+   ══════════════════════════════════════════
+   SLIDE_INTERVAL : durasi tiap slide tampil (milidetik)
+   Contoh: 5000 = 5 detik, 7000 = 7 detik
+══════════════════════════════════════════ */
+(function(){
+  const SLIDE_INTERVAL = 6000; /* ← EDIT: ganti interval (ms) di sini */
+
+  const slides  = document.querySelectorAll('.hero-slide');
+  const dotsWrap = document.getElementById('heroDots');
+  const prevBtn  = document.getElementById('heroPrev');
+  const nextBtn  = document.getElementById('heroNext');
+  const total    = slides.length;
+  let current    = 0;
+  let timer      = null;
+  let paused     = false;
+
+  /* Set CSS var untuk animasi dot progress */
+  document.documentElement.style.setProperty('--slide-duration', SLIDE_INTERVAL + 'ms');
+
+  /* Buat dots */
+  slides.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'hero-dot' + (i===0?' active':'');
+    d.setAttribute('aria-label','Slide '+(i+1));
+    d.addEventListener('click',()=>goTo(i));
+    dotsWrap.appendChild(d);
+  });
+
+  function getDots(){ return dotsWrap.querySelectorAll('.hero-dot'); }
+
+  function goTo(idx, fromUser=false){
+    if(fromUser) { clearInterval(timer); }
+    /* Reset semua slide */
+    slides.forEach((s,i)=>{
+      s.classList.remove('active');
+    });
+    getDots().forEach((d,i)=>{
+      d.classList.remove('active');
+    });
+    /* Aktifkan target */
+    current = (idx + total) % total;
+    slides[current].classList.add('active');
+    getDots()[current].classList.add('active');
+
+    if(fromUser && !paused){
+      timer = setInterval(next, SLIDE_INTERVAL);
+    }
+  }
+
+  function next(){ goTo(current + 1); }
+  function prev(){ goTo(current - 1, true); }
+
+  /* Kontrol arrow */
+  if(prevBtn) prevBtn.addEventListener('click',()=>goTo(current-1, true));
+  if(nextBtn) nextBtn.addEventListener('click',()=>goTo(current+1, true));
+
+  /* Keyboard arrow support */
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft')  goTo(current-1, true);
+    if(e.key==='ArrowRight') goTo(current+1, true);
+  });
+
+  /* Pause on hover */
+  const heroEl = document.getElementById('hero');
+  if(heroEl){
+    heroEl.addEventListener('mouseenter',()=>{
+      paused=true; clearInterval(timer);
+    });
+    heroEl.addEventListener('mouseleave',()=>{
+      paused=false; timer=setInterval(next, SLIDE_INTERVAL);
+    });
+  }
+
+  /* Touch/swipe support */
+  let touchStartX = 0;
+  heroEl.addEventListener('touchstart',e=>{ touchStartX=e.touches[0].clientX; },{passive:true});
+  heroEl.addEventListener('touchend',e=>{
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if(Math.abs(diff)>50){ diff>0 ? goTo(current+1,true) : goTo(current-1,true); }
+  },{passive:true});
+
+  /* Mulai auto-play */
+  timer = setInterval(next, SLIDE_INTERVAL);
+})();
 
 /* ══════════════════════════════════════════
    INIT
